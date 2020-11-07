@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -15,7 +16,7 @@ import java.util.stream.Collectors;
 
 @Repository
 public class StudentRepository {
-  private List<Student> students;
+  private List<Student> students = new ArrayList<>();
 
   public List<Student> getStudents() {
     return students;
@@ -45,27 +46,30 @@ public class StudentRepository {
     return students.stream().filter(student -> student.getGender().equals(gender)).collect(Collectors.toList());
   }
 
-  public Optional<Student> getStudentById(Integer id) {
-    return students.stream().filter(student -> student.getId() == id).findFirst();
-  }
-
-  public Student updateStudentById(Integer id, Student updatedStudentInfo) {
-    Optional<Student> studentById = getStudentById(id);
+  public Student getStudentById(Integer id) {
+    Optional<Student> studentById = students.stream().filter(student -> student.getId() == id).findFirst();
     if (!studentById.isPresent()) {
       throw new StudentNotFoundException("student with id is not found");
-    } else {
-      Student studentWantToUpdate = studentById.get();
-      if (updatedStudentInfo.getName() != null) {
-        studentWantToUpdate.setName(updatedStudentInfo.getName());
-      }
-      if (updatedStudentInfo.getGender() != null) {
-        studentWantToUpdate.setGender(updatedStudentInfo.getGender());
-      }
-      if (updatedStudentInfo.getGroup() != null) {
-        studentWantToUpdate.setGroup(updatedStudentInfo.getGroup());
-      }
     }
     return studentById.get();
   }
 
+  public Student updateStudentById(Integer id, Student updatedStudentInfo) {
+    Student studentWantToUpdate = getStudentById(id);
+    if (updatedStudentInfo.getName() != null) {
+      studentWantToUpdate.setName(updatedStudentInfo.getName());
+    }
+    if (updatedStudentInfo.getGender() != null) {
+      studentWantToUpdate.setGender(updatedStudentInfo.getGender());
+    }
+    if (updatedStudentInfo.getGroupId() != null) {
+      studentWantToUpdate.setGroupId(updatedStudentInfo.getGroupId());
+    }
+    return studentWantToUpdate;
+  }
+
+  public void updateGroupInfoOfStudent(Integer id, Integer groupId) {
+    Student studentById = getStudentById(id);
+    studentById.setGroupId(groupId);
+  }
 }

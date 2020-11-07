@@ -3,6 +3,7 @@ package com.thoughtworks.capability.gtb.restfulapidesign.controller;
 import com.thoughtworks.capability.gtb.restfulapidesign.entity.Group;
 import com.thoughtworks.capability.gtb.restfulapidesign.entity.Student;
 import com.thoughtworks.capability.gtb.restfulapidesign.service.GroupService;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,6 +18,7 @@ public class GroupController {
   }
 
   @PostMapping
+  @ResponseStatus(HttpStatus.CREATED)
   public List<Group> grouping(@RequestBody List<Student> students) {
     return groupService.grouping(students);
   }

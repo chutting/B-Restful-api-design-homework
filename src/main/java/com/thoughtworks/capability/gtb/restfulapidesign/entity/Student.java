@@ -12,5 +12,5 @@ public class Student {
   private Integer id;
   private String name;
   private String gender;
-  private Group group;
+  private Integer groupId;
 }

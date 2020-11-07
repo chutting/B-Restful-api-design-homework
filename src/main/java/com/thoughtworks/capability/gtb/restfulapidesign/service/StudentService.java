@@ -33,15 +33,10 @@ public class StudentService {
   }
 
   public Student getStudentById(Integer id) {
-    Optional<Student> studentById = studentRepository.getStudentById(id);
-    if (!studentById.isPresent()) {
-      throw new StudentNotFoundException("student with id is not found");
-    }
-    return studentById.get();
+    return studentRepository.getStudentById(id);
   }
 
   public Student updateStudent(Integer id, Student student) {
-    studentRepository.updateStudentById(id, student);
-    return null;
+    return studentRepository.updateStudentById(id, student);
   }
 }

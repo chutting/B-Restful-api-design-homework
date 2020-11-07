@@ -12,5 +12,5 @@ import java.util.List;
 public class Group {
   private Integer id;
   private String name;
-  private List<Student> note;
+  private List<Student> students;
 }
